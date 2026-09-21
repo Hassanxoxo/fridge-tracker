@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { QUICK_ITEMS } from '../data/constants'
 
 function AddItemForm({ onAdd }) {
   const [name, setName] = useState('')
@@ -21,36 +22,54 @@ function AddItemForm({ onAdd }) {
     setUseBy('')
   }
 
+  function handleQuickAdd(foodName) {
+    setName(foodName)
+  }
+
   return (
-    <form className="add-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Food name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        aria-label="Food name"
-        className="add-input"
-      />
-      <input
-        type="text"
-        placeholder="Quantity"
-        value={quantity}
-        onChange={(e) => setQuantity(e.target.value)}
-        aria-label="Quantity"
-        className="add-input"
-      />
-      <input
-        type="text"
-        placeholder="Use-by (DD/MM)"
-        value={useBy}
-        onChange={(e) => setUseBy(e.target.value)}
-        aria-label="Use-by date"
-        className="add-input"
-      />
-      <button type="submit" className="add-button">
-        Add to Fridge
-      </button>
-    </form>
+    <div>
+      <div className="quick-buttons">
+        {QUICK_ITEMS.map((item) => (
+          <button
+            key={item.name}
+            type="button"
+            className="quick-button"
+            onClick={() => handleQuickAdd(item.name)}
+          >
+            {item.emoji} {item.name}
+          </button>
+        ))}
+      </div>
+      <form className="add-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Food name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-label="Food name"
+          className="add-input"
+        />
+        <input
+          type="text"
+          placeholder="Quantity"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
+          aria-label="Quantity"
+          className="add-input"
+        />
+        <input
+          type="text"
+          placeholder="Use-by (DD/MM)"
+          value={useBy}
+          onChange={(e) => setUseBy(e.target.value)}
+          aria-label="Use-by date"
+          className="add-input"
+        />
+        <button type="submit" className="add-button">
+          Add to Fridge
+        </button>
+      </form>
+    </div>
   )
 }
 

@@ -17,9 +17,9 @@ work-cards/08-github-vercel-proof.md (next)
 - [x] WC05 — localStorage persistence (completed 2026-09-21)
 - [x] WC06 — Delete Item (completed 2026-09-21)
 - [x] WC07 — Review and Fix (completed 2026-09-21)
-- [ ] WC04 — Item List with sorting and colors
-- [ ] WC05 — localStorage persistence
-- [ ] WC06 — Delete Item
+- [ ] WC08 — GitHub and Vercel
+- [x] Quick-add buttons (10 food items with emoji)
+- [x] Search/filter input
 - [ ] WC07 — Review and Fix
 - [ ] WC08 — GitHub and Vercel
 

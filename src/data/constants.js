@@ -1,6 +1,19 @@
 export const STORAGE_KEY = "fridge-tracker-items";
 export const EXPIRING_SOON_DAYS = 3;
 
+export const QUICK_ITEMS = [
+  { name: 'Milk', emoji: '🥛' },
+  { name: 'Beef', emoji: '🥩' },
+  { name: 'Chicken', emoji: '🍗' },
+  { name: 'Yogurt', emoji: '🥛' },
+  { name: 'Mango Juice', emoji: '🧃' },
+  { name: 'Cooked Rice', emoji: '🍚' },
+  { name: 'Eggs', emoji: '🥚' },
+  { name: 'Cheese', emoji: '🧀' },
+  { name: 'Bread', emoji: '🍞' },
+  { name: 'Tomatoes', emoji: '🍅' },
+]
+
 export function parseDate(dateStr) {
   if (!dateStr) return null
   const parts = dateStr.split('/')

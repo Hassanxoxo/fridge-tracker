@@ -7,6 +7,7 @@ import { loadItems, saveItems } from './data/storage'
 
 function App() {
   const [items, setItems] = useState(loadItems)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     saveItems(items)
@@ -25,6 +26,12 @@ function App() {
     setItems(items.filter((item) => item.id !== id))
   }
 
+  const filtered = search.trim()
+    ? items.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : items
+
   return (
     <div className="app">
       <header className="header">
@@ -32,7 +39,23 @@ function App() {
       </header>
       <main className="main">
         <AddItemForm onAdd={handleAdd} />
-        {items.length === 0 ? <EmptyState /> : <ItemList items={items} onDelete={handleDelete} />}
+        {items.length > 0 && (
+          <input
+            type="text"
+            placeholder="Search items..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search items"
+            className="search-input"
+          />
+        )}
+        {items.length === 0 ? (
+          <EmptyState />
+        ) : filtered.length === 0 ? (
+          <p className="no-results">No items match your search.</p>
+        ) : (
+          <ItemList items={filtered} onDelete={handleDelete} />
+        )}
       </main>
     </div>
   )
