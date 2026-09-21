@@ -1,4 +1,5 @@
 import { EXPIRING_SOON_DAYS, parseDate } from '../data/constants'
+import { t } from '../data/translations'
 
 function getStatus(useBy) {
   const date = parseDate(useBy)
@@ -11,7 +12,7 @@ function getStatus(useBy) {
   return 'safe'
 }
 
-function ItemCard({ item, onDelete, animating }) {
+function ItemCard({ item, onDelete, animating, lang }) {
   const status = getStatus(item.useBy)
 
   return (
@@ -20,18 +21,18 @@ function ItemCard({ item, onDelete, animating }) {
         <span className="item-name">{item.name}</span>
         <span className="item-details">
           {item.quantity && <span className="item-quantity">{item.quantity}</span>}
-          {item.useBy && <span className="item-date">Use by: {item.useBy}</span>}
-          {!item.useBy && <span className="item-date">No expiry</span>}
+          {item.useBy && <span className="item-date">{t(lang, 'useByLabel')} {item.useBy}</span>}
+          {!item.useBy && <span className="item-date">{t(lang, 'noExpiry')}</span>}
         </span>
       </div>
       <div className="item-card-right">
         <div className="item-status-label">
-          {status === 'expired' && 'Expired'}
-          {status === 'expiring' && 'Eat soon'}
-          {status === 'safe' && 'Good'}
+          {status === 'expired' && t(lang, 'expiredLabel')}
+          {status === 'expiring' && t(lang, 'eatSoon')}
+          {status === 'safe' && t(lang, 'good')}
         </div>
         <button className="delete-button" onClick={() => onDelete(item.id)}>
-          Delete
+          {t(lang, 'deleteLabel')}
         </button>
       </div>
     </div>

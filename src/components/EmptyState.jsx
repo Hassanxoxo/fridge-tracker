@@ -1,9 +1,11 @@
-function EmptyState() {
+import { t } from '../data/translations'
+
+function EmptyState({ lang }) {
   return (
     <div className="empty-state">
       <span className="empty-emoji">🧊</span>
-      <p className="empty-text">Your fridge is empty!</p>
-      <p className="empty-hint">Try adding some milk, eggs, or anything you bought today.</p>
+      <p className="empty-text">{t(lang, 'emptyTitle')}</p>
+      <p className="empty-hint">{t(lang, 'emptyHint')}</p>
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { QUICK_ITEMS, QUANTITY_UNITS } from '../data/constants'
+import { t } from '../data/translations'
 
-function AddItemForm({ onAdd }) {
+function AddItemForm({ onAdd, lang }) {
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('')
   const [useBy, setUseBy] = useState('')
@@ -47,19 +48,19 @@ function AddItemForm({ onAdd }) {
       <form className="add-form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Food name"
+          placeholder={t(lang, 'foodName')}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          aria-label="Food name"
+          aria-label={t(lang, 'foodName')}
           className="add-input"
         />
         <div className="quantity-wrap">
           <input
             type="text"
-            placeholder="Quantity"
+            placeholder={t(lang, 'quantity')}
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            aria-label="Quantity"
+            aria-label={t(lang, 'quantity')}
             className="add-input"
           />
           <div className="unit-presets">
@@ -79,11 +80,11 @@ function AddItemForm({ onAdd }) {
           type="date"
           value={useBy}
           onChange={(e) => setUseBy(e.target.value)}
-          aria-label="Use-by date"
+          aria-label={t(lang, 'useBy')}
           className="add-input date-input"
         />
         <button type="submit" className="add-button">
-          Add to Fridge
+          {t(lang, 'addToFridge')}
         </button>
       </form>
     </div>

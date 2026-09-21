@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import AddItemForm from './components/AddItemForm'
 import ItemList from './components/ItemList'
 import EmptyState from './components/EmptyState'
 import Toast from './components/Toast'
 import { loadItems, saveItems } from './data/storage'
+import { getLang, setLang, t, LANGUAGES } from './data/translations'
 
 function App() {
   const [items, setItems] = useState(loadItems)
@@ -12,11 +13,23 @@ function App() {
   const [filter, setFilter] = useState('all')
   const [toast, setToast] = useState(null)
   const [animatingId, setAnimatingId] = useState(null)
+  const [lang, setLangState] = useState(getLang)
   const undoRef = useRef(null)
 
   useEffect(() => {
     saveItems(items)
   }, [items])
+
+  useEffect(() => {
+    const dir = LANGUAGES.find((l) => l.code === lang)?.dir || 'ltr'
+    document.documentElement.dir = dir
+    document.documentElement.lang = lang
+  }, [lang])
+
+  function handleLangChange(code) {
+    setLang(code)
+    setLangState(code)
+  }
 
   function handleAdd(item) {
     const newItem = {
@@ -33,7 +46,7 @@ function App() {
     const deleted = items.find((i) => i.id === id)
     setItems(items.filter((item) => item.id !== id))
     if (deleted) {
-      setToast({ message: `${deleted.name} deleted`, id: deleted.id })
+      setToast({ message: `${deleted.name} ${t(lang, 'deleted')}`, id: deleted.id })
       if (undoRef.current) clearTimeout(undoRef.current)
       undoRef.current = setTimeout(() => setToast(null), 4000)
     }
@@ -41,18 +54,17 @@ function App() {
 
   function handleUndo() {
     if (toast && toast.id !== undefined) {
-      setItems((prev) => {
-        const restored = items.find((i) => i.id === toast.id)
-        return restored ? [...prev, restored] : prev
-      })
+      const restored = items.find((i) => i.id === toast.id)
+      if (restored) setItems((prev) => [...prev, restored])
       setToast(null)
       if (undoRef.current) clearTimeout(undoRef.current)
     }
   }
 
+  const searchLower = search.toLowerCase()
   const filtered = items.filter((item) => {
     const matchesSearch = search.trim()
-      ? item.name.toLowerCase().includes(search.toLowerCase())
+      ? item.name.toLowerCase().includes(searchLower)
       : true
     if (!matchesSearch) return false
     if (filter === 'expiring') {
@@ -73,26 +85,39 @@ function App() {
   })
 
   const tabs = [
-    { key: 'all', label: 'All' },
-    { key: 'expiring', label: 'Expiring soon' },
-    { key: 'expired', label: 'Expired' },
+    { key: 'all', label: t(lang, 'all') },
+    { key: 'expiring', label: t(lang, 'expiringSoon') },
+    { key: 'expired', label: t(lang, 'expired') },
   ]
 
   return (
-    <div className="app">
+    <div className={`app lang-${lang}`}>
       <header className="header">
-        <h1>Fridge Tracker</h1>
+        <div className="header-top">
+          <h1>{t(lang, 'header')}</h1>
+          <div className="lang-switcher">
+            {LANGUAGES.map((l) => (
+              <button
+                key={l.code}
+                className={`lang-btn ${lang === l.code ? 'lang-btn--active' : ''}`}
+                onClick={() => handleLangChange(l.code)}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </header>
       <main className="main">
-        <AddItemForm onAdd={handleAdd} />
+        <AddItemForm onAdd={handleAdd} lang={lang} />
         {items.length > 0 && (
           <>
             <input
               type="text"
-              placeholder="Search items..."
+              placeholder={t(lang, 'searchItems')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              aria-label="Search items"
+              aria-label={t(lang, 'searchItems')}
               className="search-input"
             />
             <div className="filter-tabs">
@@ -109,14 +134,14 @@ function App() {
           </>
         )}
         {items.length === 0 ? (
-          <EmptyState />
+          <EmptyState lang={lang} />
         ) : filtered.length === 0 ? (
-          <p className="no-results">No items match your search.</p>
+          <p className="no-results">{t(lang, 'noResults')}</p>
         ) : (
-          <ItemList items={filtered} onDelete={handleDelete} animatingId={animatingId} />
+          <ItemList items={filtered} onDelete={handleDelete} animatingId={animatingId} lang={lang} />
         )}
       </main>
-      {toast && <Toast message={toast.message} onUndo={handleUndo} />}
+      {toast && <Toast message={toast.message} onUndo={handleUndo} lang={lang} />}
     </div>
   )
 }
