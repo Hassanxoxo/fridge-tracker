@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { QUICK_ITEMS } from '../data/constants'
+import { QUICK_ITEMS, QUANTITY_UNITS } from '../data/constants'
 
 function AddItemForm({ onAdd }) {
   const [name, setName] = useState('')
@@ -26,6 +26,10 @@ function AddItemForm({ onAdd }) {
     setName(foodName)
   }
 
+  function handleUnitPreset(unit) {
+    setQuantity(unit)
+  }
+
   return (
     <div>
       <div className="quick-buttons">
@@ -49,21 +53,34 @@ function AddItemForm({ onAdd }) {
           aria-label="Food name"
           className="add-input"
         />
+        <div className="quantity-wrap">
+          <input
+            type="text"
+            placeholder="Quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            aria-label="Quantity"
+            className="add-input"
+          />
+          <div className="unit-presets">
+            {QUANTITY_UNITS.map((u) => (
+              <button
+                key={u}
+                type="button"
+                className="unit-button"
+                onClick={() => handleUnitPreset(u)}
+              >
+                {u}
+              </button>
+            ))}
+          </div>
+        </div>
         <input
-          type="text"
-          placeholder="Quantity"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          aria-label="Quantity"
-          className="add-input"
-        />
-        <input
-          type="text"
-          placeholder="Use-by (DD/MM)"
+          type="date"
           value={useBy}
           onChange={(e) => setUseBy(e.target.value)}
           aria-label="Use-by date"
-          className="add-input"
+          className="add-input date-input"
         />
         <button type="submit" className="add-button">
           Add to Fridge

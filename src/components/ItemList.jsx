@@ -12,13 +12,13 @@ function sortItems(items) {
   })
 }
 
-function ItemList({ items, onDelete }) {
+function ItemList({ items, onDelete, animatingId }) {
   const sorted = sortItems(items)
 
   return (
     <div className="item-list">
       {sorted.map((item) => (
-        <ItemCard key={item.id} item={item} onDelete={onDelete} />
+        <ItemCard key={item.id} item={item} onDelete={onDelete} animating={item.id === animatingId} />
       ))}
     </div>
   )

@@ -1,6 +1,11 @@
 export const STORAGE_KEY = "fridge-tracker-items";
 export const EXPIRING_SOON_DAYS = 3;
 
+export const QUANTITY_UNITS = [
+  '1 bucket', '1 kilo', 'half kilo', '1 pack', '2 pieces', '3 pieces',
+  '1 bottle', '1 box', '1 bag',
+]
+
 export const QUICK_ITEMS = [
   { name: 'Milk', emoji: '🥛' },
   { name: 'Beef', emoji: '🥩' },

@@ -1,13 +1,14 @@
 :root {
-  --blue: #4a90d9;
-  --blue-hover: #3a7bc8;
-  --red: #d32f2f;
-  --green: #4caf50;
-  --amber: #ff9800;
-  --gray-border: #e0e0e0;
-  --gray-text: #666666;
-  --dark-text: #333333;
-  --bg: #ffffff;
+  --blue: #5b9bd5;
+  --blue-hover: #4a8bc7;
+  --red: #e4574a;
+  --green: #6bbf59;
+  --amber: #f0a040;
+  --bg-warm: #faf8f5;
+  --card-bg: #ffffff;
+  --gray-border: #e8e4de;
+  --gray-text: #8a8580;
+  --dark-text: #3d3733;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
 
@@ -15,7 +16,7 @@
   font-size: 16px;
   line-height: 1.5;
   color: var(--dark-text);
-  background: var(--bg);
+  background: var(--bg-warm);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

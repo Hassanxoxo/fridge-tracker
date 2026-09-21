@@ -11,11 +11,11 @@ function getStatus(useBy) {
   return 'safe'
 }
 
-function ItemCard({ item, onDelete }) {
+function ItemCard({ item, onDelete, animating }) {
   const status = getStatus(item.useBy)
 
   return (
-    <div className={`item-card item-card--${status}`}>
+    <div className={`item-card item-card--${status} ${animating ? 'item-card--new' : ''}`}>
       <div className="item-card-body">
         <span className="item-name">{item.name}</span>
         <span className="item-details">
